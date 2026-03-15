@@ -64,12 +64,17 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
       final progress = await ApiService.getProfileProgress(profileId);
       final levelsList = progress['levels'] as List<dynamic>? ?? [];
       Map<String, dynamic>? currentLevel;
+      // Ưu tiên level đang học (LEARNING); nếu đã xong hết thì dùng level đã PASS cuối
       for (final l in levelsList) {
         final m = l as Map<String, dynamic>;
-        if (m['status'] == 'LEARNING' || m['status'] == 'PASS') {
+        if (m['status'] == 'LEARNING') {
           currentLevel = m;
           break;
         }
+      }
+      if (currentLevel == null) {
+        final passed = levelsList.where((l) => (l as Map)['status'] == 'PASS').toList();
+        currentLevel = passed.isNotEmpty ? passed.last as Map<String, dynamic> : null;
       }
       currentLevel ??= levelsList.isNotEmpty ? levelsList.first as Map<String, dynamic> : null;
       final levelId = currentLevel?['levelId'] as int?;
