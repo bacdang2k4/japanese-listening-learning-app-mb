@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2a5d83",
+              "background-light": "#f6f7f8",
+              "background-dark": "#141a1e",
+            },
+            fontFamily: {
+              "display": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<!-- Top Navigation -->
+<div class="flex items-center justify-end p-6">
+<button class="text-primary hover:text-primary/80 font-semibold text-base transition-colors">
+                Bỏ qua
+            </button>
+</div>
+<!-- Main Content Container -->
+<div class="flex-1 flex flex-col items-center justify-center px-6">
+<!-- Hero Illustration Area -->
+<div class="@container w-full max-w-sm">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-primary/5 dark:bg-primary/10 flex items-center justify-center">
+<!-- Placeholder for Japanese Flashcards Illustration -->
+<div class="absolute inset-0 bg-cover bg-center opacity-90" data-alt="Japanese vocabulary flashcards with hiragana characters illustration" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPwL6Sa4q7S9oZXp1s28oaj_gFF8BqBUGuOT5txUJTLe7k09u7r3zZaILclRlppzEr4dKiP0JAkdeGv9HNx4OHGwFZ1ZhHXCWf_iCl1V9HfZbB4FmSV2ET9X4_8v8qhfSd3nZYSIkDdh38NmToDgrxLGaobv5po__Xf-6stHR5Gk_z1_YLpyRPF3uEM3bKnUtv77TUr95qyX05exiMc5m5bB5oCS-SFUwDs05CarTisZd8RBTy7gOpxovokAN_xk7-q2-tibSftAM");'>
+</div>
+<!-- Decorative Overlay to ensure text visibility if needed -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="mt-10 text-center">
+<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-bold leading-tight px-4">
+                    Học từ vựng hiệu quả
+                </h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg font-normal leading-relaxed mt-4 px-6">
+                    Học từ vựng hiệu quả qua Flashcards sinh động và bài tập tương tác
+                </p>
+</div>
+<!-- Pagination Dots -->
+<div class="flex w-full flex-row items-center justify-center gap-3 py-8">
+<div class="h-2.5 w-6 rounded-full bg-primary"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-primary/20"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-primary/20"></div>
+</div>
+</div>
+<!-- Bottom Navigation Button -->
+<div class="p-6 pb-12 w-full max-w-sm mx-auto">
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                Tiếp theo
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</body></html>

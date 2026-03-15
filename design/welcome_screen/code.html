@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Chào mừng bạn đến với JPLearning</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header / Top Bar -->
+<header class="flex items-center justify-between p-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-10">
+<div class="w-10"></div> <!-- Spacer -->
+<h1 class="text-primary text-xl font-bold leading-tight tracking-tight flex-1 text-center">JPLearning</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer">language</span>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center @container">
+<!-- Illustration Section -->
+<div class="w-full max-w-2xl px-4 py-6 @[480px]:px-6">
+<div class="relative w-full aspect-[16/10] overflow-hidden rounded-xl shadow-lg bg-primary/10 flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10"></div>
+<img alt="Japanese Landscape with Pagoda and Cherry Blossoms" class="w-full h-full object-cover" data-alt="Scenic Japanese landscape with pagoda and cherry blossoms" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP4tzscyvLYAwumTPwiQXC-dS0gvBcTzMXWMdfxmftibwseoFO-sjXc5-7RbS1N30skbDvsCgcGG_xMiFDGKL50AFz842VBJ_rY-R-9CVjO1EfTTOoHt9e6t-s2eoDnemUwIEKVkLdSngGEc5xear1QHpXWM2jC_bFfr10FpMtzUEQp076V4eHgUeeZKpVtfvKNzDLjPHcP_CLQ9JcP-Wt7ySvmaaOMajTQhRi-zPEPnt7fRz7-GMijNcqYCNXrGj7YC2ZkkDdrBc"/>
+<!-- Floating Icon Overlay for a 'learning' feel -->
+<div class="absolute bottom-4 right-4 bg-white/90 dark:bg-background-dark/90 p-3 rounded-lg shadow-sm flex items-center gap-2 border border-primary/20">
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+<span class="text-xs font-semibold">Nihongo Study</span>
+</div>
+</div>
+</div>
+<!-- Content Section -->
+<div class="max-w-[480px] w-full px-6 text-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-3xl font-bold leading-tight tracking-tight pt-4 pb-2">
+                    Chào mừng bạn đến với <span class="text-primary">JPLearning</span>
+</h2>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed pb-8">
+                    Bắt đầu hành trình chinh phục tiếng Nhật của bạn ngay hôm nay cùng cộng đồng hàng ngàn học viên.
+                </p>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-4 w-full">
+<button class="group flex items-center justify-center gap-2 overflow-hidden rounded-xl h-14 px-6 bg-primary text-white text-lg font-bold transition-all hover:opacity-90 active:scale-95 shadow-md">
+<span class="truncate">Đăng nhập</span>
+<span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-xl h-14 px-6 border-2 border-primary/30 bg-primary/5 text-primary text-lg font-bold transition-all hover:bg-primary/10 active:scale-95">
+<span class="truncate">Đăng ký</span>
+</button>
+</div>
+</div>
+<!-- Footer / Benefits -->
+<div class="mt-12 mb-8 grid grid-cols-3 gap-4 w-full max-w-[480px] px-6">
+<div class="flex flex-col items-center gap-1 text-center">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">verified_user</span>
+</div>
+<span class="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Tin cậy</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-center">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">school</span>
+</div>
+<span class="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Lộ trình</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-center">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">group</span>
+</div>
+<span class="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Kết nối</span>
+</div>
+</div>
+</main>
+<!-- Background Decor -->
+<div class="fixed -bottom-16 -left-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+<div class="fixed -top-16 -right-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+</div>
+</body></html>

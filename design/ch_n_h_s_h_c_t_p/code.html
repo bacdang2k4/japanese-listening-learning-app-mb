@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>JPLearning - Chọn hồ sơ</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-screen w-full flex-col overflow-hidden mx-auto max-w-md bg-white dark:bg-background-dark shadow-xl">
+<!-- Header -->
+<div class="flex items-center p-6 pb-2 justify-between">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h2 class="text-xl font-bold leading-tight tracking-tight flex-1 text-center pr-10">Chọn hồ sơ</h2>
+</div>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto px-6 py-8">
+<p class="text-center text-slate-500 dark:text-slate-400 mb-8 text-sm">Chào mừng bạn quay lại! Hãy chọn hồ sơ để tiếp tục hành trình học tập.</p>
+<!-- Profile Grid -->
+<div class="grid grid-cols-2 gap-8">
+<!-- Profile 1 -->
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="relative w-full aspect-square max-w-[140px]">
+<div class="w-full h-full rounded-full border-4 border-primary p-1 transition-transform group-hover:scale-105">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-full" data-alt="Avatar của người dùng nam trẻ tuổi" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGqYHZwyK8TJci-A0Cp4OiBpWZAHpegB8SmU5owxD1J2-5XsU3Jyw2JCdUBeKf-1ueZlZTpOlUSzV-p9SrW2hUk9UIVAV7IaU0HZAFO3bL6Fb0-LtslMsNRVIuwCna0WxOA02YwlhMvZbjTgUledPEHr5kxmlOqdIoUtTLxTloNcV5GQBST6YWAAAeCeJe9FiAZZHX41rj6x5CEsfonvvohtvvP0oQdvaW08QQPWOCsQgaku0IWPlbwDSRClhmF48UrFqoNXCVHXU");'>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
+</div>
+<div class="text-center">
+<p class="text-base font-semibold">Minh Anh</p>
+<p class="text-primary text-xs font-medium">Đang học</p>
+</div>
+</div>
+<!-- Profile 2 -->
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="relative w-full aspect-square max-w-[140px]">
+<div class="w-full h-full rounded-full border-2 border-slate-200 dark:border-slate-700 p-1 transition-transform group-hover:scale-105">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-full" data-alt="Avatar của người dùng nữ vui vẻ" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCajL2FJAqZu16qEU98gLrc3UAWa6NB1yg22karF2j3-ZB_TZGuDYQFpfd1k-9hHKP7MCoGcQEfQqy-ZMElu3UbzRb8qyjcNB5VWWLIpUjcFN1n0OducXMGbsKrCwVjKEquGf_woEPrdVeyoTaA4bzKtnYSmw4z2_Fs-mrN4CNpMoTExpPwXDVssIvYfaTbfctsm0-pN7K141pumueF5nEwB9IcvNTXYu5CRMg5kJoiFYoz7iTHu9_iiCg13VHByuc2KLj9bCbmMPw");'>
+</div>
+</div>
+</div>
+<div class="text-center">
+<p class="text-base font-semibold">Khánh Vy</p>
+<p class="text-slate-500 text-xs font-normal">Đã hoàn thành</p>
+</div>
+</div>
+<!-- Profile 3 -->
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="relative w-full aspect-square max-w-[140px]">
+<div class="w-full h-full rounded-full border-2 border-slate-200 dark:border-slate-700 p-1 transition-transform group-hover:scale-105">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-full" data-alt="Avatar nhân vật hoạt hình nam" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVgxeENmsa7x5S5-JuJSHyf24u_nxTQt2SPTCBqVc-EVcyyFLjMd77cXetJ3id5YWG0mssLShkDHKd4Qel6amf7-ABUmrEjrlw8woXzO7qswyDx7Om27A9J9lbPj-w7zFjgI0tu0uUvNmB6AfK1z67fMEvfOa1-zpi6gldoQ8G31Tf7yJqJQNaBL25wgbBLW5qW6uI_B3YUTaLgUI7ZlVe7OURF_GaH5kdjBtOoWVoHz85-6dF5Vyv2igENXpP78LfNaS3FiGpdB4");'>
+</div>
+</div>
+</div>
+<div class="text-center">
+<p class="text-base font-semibold">Gia Bảo</p>
+<p class="text-slate-500 text-xs font-normal">Người mới</p>
+</div>
+</div>
+<!-- Add New Button as a Card -->
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-full aspect-square max-w-[140px] flex items-center justify-center rounded-full border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 transition-colors group-hover:bg-primary/5">
+<span class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary">add</span>
+</div>
+<div class="text-center">
+<p class="text-base font-semibold text-slate-500 group-hover:text-primary">Thêm mới</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="px-6 py-6 border-t border-slate-100 dark:border-slate-800">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">person_add</span>
+                Thêm hồ sơ mới
+            </button>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="flex border-t border-slate-100 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 pb-6 pt-3 gap-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">menu_book</span>
+<p class="text-[10px] font-medium leading-none">Học tập</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">account_circle</span>
+<p class="text-[10px] font-medium leading-none">Hồ sơ</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-[10px] font-medium leading-none">Cài đặt</p>
+</a>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>JPLearning - Làm bài thi chính thức</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col max-w-md mx-auto overflow-x-hidden shadow-xl bg-white dark:bg-slate-900">
+<!-- Header Section -->
+<header class="sticky top-0 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center p-4 justify-between">
+<button class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex flex-col items-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-sm font-bold uppercase tracking-wider">Bài thi chính thức</h2>
+<p class="text-primary font-bold text-xs">JPLearning Examination</p>
+</div>
+<button class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+</div>
+<!-- Progress and Timer -->
+<div class="px-4 pb-4">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="text-slate-600 dark:text-slate-400 text-xs font-medium">Câu hỏi</span>
+<span class="text-slate-900 dark:text-white text-sm font-bold">5/30</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-red-50 dark:bg-red-900/20 rounded-full border border-red-100 dark:border-red-900/30">
+<span class="material-symbols-outlined text-red-600 dark:text-red-400 text-sm">timer</span>
+<span class="text-red-600 dark:text-red-400 text-sm font-bold tabular-nums">14:25</span>
+</div>
+</div>
+<div class="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-300" style="width: 17%;"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 p-4 space-y-6">
+<!-- Audio Section Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-lg bg-primary/10 flex items-center justify-center text-primary overflow-hidden relative">
+<div class="absolute inset-0 opacity-20 bg-cover bg-center" data-alt="Sound wave pattern for audio listening section" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYxFN6kb68NOM2bbAFph-97bwCoggc2oMdTTF8zQ2WLhbnJbzuAwoQQfI117qrPKFVpkDyVJ9Nf5_ibaYfXk3VLD8Cth5k8TP-iALPPH2JE_53S4e-r2yuCxiN02lIHWI77A1xhaUi-atpwD38Fx0nkGHH-q0xelJGvz83dFZie6KOzMTpBydHHw2KOxRrqRIc1lvBH1MZcW-PRQSTNIEgYQc9Jram6inBA995OtC5WMxtaC3K3aWv9rp8zDq0i9xT1pHkU0feWY4')"></div>
+<span class="material-symbols-outlined relative z-10 text-3xl">headset</span>
+</div>
+<div class="flex-1">
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">Phần nghe: Chú ý</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Âm thanh chỉ phát 1 lần duy nhất</p>
+</div>
+<button class="bg-primary text-white flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary/90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+<span>Phát</span>
+</button>
+</div>
+</div>
+<!-- Question Content -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-primary/20">Câu hỏi 05</span>
+</div>
+<h1 class="text-slate-900 dark:text-white text-2xl font-bold leading-snug tracking-tight">
+                    すみません、いま　なんじですか。
+                </h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm italic font-light">
+                    Xin lỗi, bây giờ là mấy giờ rồi?
+                </p>
+</div>
+<!-- Answer Options -->
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-left hover:border-primary/50 dark:hover:border-primary/50 transition-all group active:scale-[0.98]">
+<span class="size-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold mr-4 group-hover:bg-primary group-hover:text-white transition-colors">A</span>
+<span class="text-slate-800 dark:text-slate-200 font-medium">ごご ２じです。</span>
+</button>
+<button class="flex items-center p-4 bg-primary/5 dark:bg-primary/10 border-2 border-primary rounded-xl text-left transition-all active:scale-[0.98]">
+<span class="size-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold mr-4">B</span>
+<span class="text-slate-900 dark:text-white font-semibold">いま、３じですよ。</span>
+<span class="material-symbols-outlined ml-auto text-primary">check_circle</span>
+</button>
+<button class="flex items-center p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-left hover:border-primary/50 dark:hover:border-primary/50 transition-all group active:scale-[0.98]">
+<span class="size-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold mr-4 group-hover:bg-primary group-hover:text-white transition-colors">C</span>
+<span class="text-slate-800 dark:text-slate-200 font-medium">ええ、なんじです。</span>
+</button>
+<button class="flex items-center p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-left hover:border-primary/50 dark:hover:border-primary/50 transition-all group active:scale-[0.98]">
+<span class="size-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold mr-4 group-hover:bg-primary group-hover:text-white transition-colors">D</span>
+<span class="text-slate-800 dark:text-slate-200 font-medium">わかりません。</span>
+</button>
+</div>
+</main>
+<!-- Navigation Footer -->
+<footer class="sticky bottom-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 pb-8">
+<div class="flex items-center gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 h-14 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+                    Trước đó
+                </button>
+<button class="flex-1 flex items-center justify-center gap-2 h-14 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                    Tiếp theo
+                    <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</footer>
+<!-- Floating Question Index Button (Secondary Trigger) -->
+<div class="absolute bottom-24 right-4">
+<button class="size-12 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center shadow-xl text-primary hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+</button>
+</div>
+<!-- Question Index Overlay (Visual representation as requested) -->
+<div class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-end">
+<div class="w-full bg-white dark:bg-slate-900 rounded-t-3xl p-6 shadow-2xl max-w-md mx-auto">
+<div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-6"></div>
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-xl font-bold">Mục lục câu hỏi</h4>
+<span class="text-sm font-medium text-slate-500">5/30 Đã làm</span>
+</div>
+<div class="grid grid-cols-6 gap-3 max-h-[40vh] overflow-y-auto mb-6 p-1">
+<!-- Answered -->
+<div class="aspect-square rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+<div class="aspect-square rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+<div class="aspect-square rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm">3</div>
+<div class="aspect-square rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm">4</div>
+<!-- Current -->
+<div class="aspect-square rounded-lg bg-white border-2 border-primary text-primary flex items-center justify-center font-bold text-sm ring-4 ring-primary/10">5</div>
+<!-- Unanswered -->
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold text-sm">6</div>
+<!-- Repeated for visual -->
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold text-sm">7</div>
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold text-sm">8</div>
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold text-sm">9</div>
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold text-sm">10</div>
+</div>
+<button class="w-full py-4 bg-primary text-white font-bold rounded-xl">Đóng danh sách</button>
+</div>
+</div>
+</div>
+</body></html>

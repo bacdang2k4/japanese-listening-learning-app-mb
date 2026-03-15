@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
+<!-- Mobile Container Emulator -->
+<div class="w-full max-w-md h-[812px] bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden relative flex flex-col border border-slate-200 dark:border-slate-800">
+<!-- Top Navigation -->
+<div class="flex justify-end p-6">
+<a class="text-slate-400 hover:text-primary transition-colors font-medium" href="#">Bỏ qua</a>
+</div>
+<!-- Main Content Section -->
+<div class="flex-1 flex flex-col items-center justify-center px-8 text-center">
+<!-- Illustration Area -->
+<div class="relative w-full aspect-square mb-12 flex items-center justify-center">
+<!-- Decorative Circles -->
+<div class="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
+<div class="absolute inset-8 bg-primary/10 rounded-full"></div>
+<!-- Main Image -->
+<div class="relative z-10 w-64 h-64 bg-slate-50 dark:bg-slate-800 rounded-xl overflow-hidden shadow-inner flex items-center justify-center border border-primary/10">
+<img alt="AI Analysis Concept" class="w-full h-full object-cover opacity-90" data-alt="Futuristic robot scanning Japanese kanji characters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe7cmoeorGjZK59QuLc7RSLutrChtmmknG8YIikgqbYh-YpU9XFQ6jGt72ogVk_yLbaUAIEnrkONIIpckbDPul3Z2X0B55TRX-ofuUWviDwa7fgjoTknGThqPV9rPQlPg_P3zCcgzh6yMtdsGe5H_kNmDTEMseszeIwiKfhcMmHYMvlYv4C0QNe1F3hqzAj6kdytJKuv4DBXqHYy3Yzrv487jXEqeZoPKfSgXGk8Dbl5JJFoEhGMFv4SPGglsqeg3HSbX4-ghRc7A"/>
+<!-- Overlay Elements for "Scanning" feel -->
+<div class="absolute inset-0 border-2 border-primary/20 rounded-xl"></div>
+<div class="absolute top-0 left-0 w-full h-1 bg-primary/40 shadow-[0_0_15px_rgba(42,93,131,0.5)]"></div>
+</div>
+<!-- Floating Tech Icons -->
+<div class="absolute top-4 right-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-lg border border-primary/20">
+<span class="material-icons text-primary">psychology</span>
+</div>
+<div class="absolute bottom-10 left-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-lg border border-primary/20">
+<span class="material-icons text-primary">auto_awesome</span>
+</div>
+</div>
+<!-- Text Content -->
+<div class="space-y-4">
+<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                    Kiểm tra AI
+                </h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">
+                    Kiểm tra năng lực với hệ thống <span class="text-primary font-semibold">AI thông minh</span>, đánh giá chính xác trình độ hiện tại của bạn.
+                </p>
+</div>
+</div>
+<!-- Footer Navigation -->
+<div class="p-8 space-y-8">
+<!-- Progress Indicator -->
+<div class="flex justify-center space-x-2">
+<div class="h-2 w-2 rounded-full bg-primary/20"></div>
+<div class="h-2 w-8 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-primary/20"></div>
+</div>
+<!-- Primary Action -->
+<div class="flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+                    Tiếp theo
+                    <span class="material-icons text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Bottom Notch (Visual) -->
+<div class="flex justify-center pb-2">
+<div class="w-32 h-1 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+</body></html>

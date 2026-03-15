@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<div class="relative flex h-screen w-full flex-col overflow-hidden max-w-md mx-auto bg-background-light dark:bg-background-dark border-x border-slate-200 dark:border-slate-800">
+<!-- Header -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 sticky top-0 z-10 border-b border-slate-200/50 dark:border-slate-800/50">
+<button class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10">Lịch sử thi</h2>
+</header>
+<main class="flex-1 overflow-y-auto pb-20">
+<!-- Search Bar -->
+<div class="px-4 py-4">
+<label class="flex flex-col w-full">
+<div class="flex w-full items-stretch rounded-xl h-12 bg-slate-200/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+<div class="text-slate-500 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 px-3 text-base font-normal leading-normal" placeholder="Tìm kiếm kết quả..." value=""/>
+</div>
+</label>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 px-4 pb-4 overflow-x-auto no-scrollbar">
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full bg-primary px-5 transition-colors">
+<p class="text-white text-sm font-medium">Tất cả</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-slate-800 px-5 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium">Bài thi</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-slate-800 px-5 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+<p class="text-slate-700 dark:text-slate-300 text-sm font-medium">Luyện tập</p>
+</button>
+</div>
+<!-- List of Results -->
+<div class="flex flex-col gap-3 px-4 pb-4">
+<!-- Result Card 1 -->
+<div class="flex flex-col gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl">history_edu</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Kiểm tra N5 - Từ vựng</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">15/10/2023 • 09:30</p>
+</div>
+</div>
+<div class="px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                            Đạt
+                        </div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Điểm số</p>
+<p class="text-primary text-lg font-bold leading-none">25/30</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Loại hình</p>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">Bài thi chính thức</p>
+</div>
+</div>
+</div>
+<!-- Result Card 2 -->
+<div class="flex flex-col gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="flex size-12 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/20 text-orange-600 shrink-0">
+<span class="material-symbols-outlined text-2xl">edit_note</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Luyện tập N4 - Ngữ pháp</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">12/10/2023 • 14:15</p>
+</div>
+</div>
+<div class="px-2.5 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                            Chưa đạt
+                        </div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Điểm số</p>
+<p class="text-red-600 dark:text-red-400 text-lg font-bold leading-none">12/30</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Loại hình</p>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">Luyện tập tự do</p>
+</div>
+</div>
+</div>
+<!-- Result Card 3 -->
+<div class="flex flex-col gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl">history_edu</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Kiểm tra N5 - Nghe hiểu</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">08/10/2023 • 20:00</p>
+</div>
+</div>
+<div class="px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                            Đạt
+                        </div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Điểm số</p>
+<p class="text-primary text-lg font-bold leading-none">28/30</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Loại hình</p>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">Bài thi chính thức</p>
+</div>
+</div>
+</div>
+<!-- Result Card 4 -->
+<div class="flex flex-col gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="flex size-12 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/20 text-orange-600 shrink-0">
+<span class="material-symbols-outlined text-2xl">edit_note</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Luyện tập Kanji N3</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">05/10/2023 • 10:45</p>
+</div>
+</div>
+<div class="px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                            Đạt
+                        </div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Điểm số</p>
+<p class="text-primary text-lg font-bold leading-none">45/50</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-slate-400 text-[10px] uppercase font-semibold">Loại hình</p>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">Luyện tập tự do</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex justify-around items-center px-2 pb-6 pt-3 z-20">
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Trang chủ</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-medium">Khóa học</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">history</span>
+<span class="text-[10px] font-medium">Lịch sử</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Cá nhân</span>
+</a>
+</nav>
+</div>
+</body></html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2a5d83",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#141a1e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>JPLearning - Luyện tập</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<div class="sticky top-0 z-10 flex items-center bg-background-light dark:bg-background-dark p-4 border-b border-primary/10 justify-between">
+<div class="text-primary flex size-10 shrink-0 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10">Luyện tập</h1>
+</div>
+<!-- Level Selector & Title -->
+<div class="px-4 pt-6 pb-2">
+<div class="flex items-center justify-between">
+<h2 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-tight">Trình độ N5</h2>
+<div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-semibold">JLPT N5</div>
+</div>
+</div>
+<!-- Progress Overview -->
+<div class="flex flex-wrap gap-3 p-4">
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 border border-primary/10 bg-white dark:bg-slate-800/50 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Hoàn thành</p>
+<p class="text-primary tracking-tight text-xl font-bold leading-tight">12/20</p>
+</div>
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 border border-primary/10 bg-white dark:bg-slate-800/50 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Trung bình</p>
+<p class="text-emerald-600 dark:text-emerald-400 tracking-tight text-xl font-bold leading-tight">85%</p>
+</div>
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 border border-primary/10 bg-white dark:bg-slate-800/50 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Thời gian</p>
+<p class="text-slate-900 dark:text-slate-100 tracking-tight text-xl font-bold leading-tight">4.5h</p>
+</div>
+</div>
+<!-- Section Title -->
+<div class="px-4 py-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Danh sách bài thi</h3>
+</div>
+<!-- Practice Test List -->
+<div class="flex flex-col gap-4 px-4 pb-24">
+<!-- Test Card 01 - Completed -->
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white dark:bg-slate-800 border border-primary/10 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-primary text-xs font-bold uppercase">Bài 01</p>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Chào hỏi &amp; Giới thiệu</h4>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>15 phút</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">quiz</span>
+<span>20 câu</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>Đạt: 80%</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<span class="text-emerald-600 dark:text-emerald-400 text-xs font-bold">Kết quả: 100%</span>
+<button class="bg-primary/10 text-primary font-bold py-2 px-4 rounded-lg text-sm">Luyện lại</button>
+</div>
+</div>
+<!-- Test Card 02 - In Progress -->
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white dark:bg-slate-800 border border-primary/10 shadow-sm">
+<div class="flex flex-col gap-1">
+<p class="text-primary text-xs font-bold uppercase">Bài 02</p>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Số đếm &amp; Thời gian</h4>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>20 phút</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">quiz</span>
+<span>25 câu</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>Đạt: 80%</span>
+</div>
+</div>
+<div class="mt-1">
+<button class="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg text-sm shadow-md">Bắt đầu thi</button>
+</div>
+</div>
+<!-- Test Card 03 - Locked -->
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-slate-100/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 opacity-70">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase">Bài 03</p>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Động từ cơ bản (Nhóm 1)</h4>
+</div>
+<span class="material-symbols-outlined text-slate-400">lock</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>15 phút</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">quiz</span>
+<span>20 câu</span>
+</div>
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>Đạt: 80%</span>
+</div>
+</div>
+</div>
+<!-- Test Card 04 - Locked -->
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-slate-100/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 opacity-70">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase">Bài 04</p>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Tính từ &amp; Miêu tả</h4>
+</div>
+<span class="material-symbols-outlined text-slate-400">lock</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>30 phút</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">quiz</span>
+<span>40 câu</span>
+</div>
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>Đạt: 80%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-20 flex bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-primary/10 px-4 pb-6 pt-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Học tập</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit_square</span>
+<p class="text-[10px] font-bold leading-normal tracking-tight">Luyện tập</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Thành tích</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Cá nhân</p>
+</a>
+</div>
+</div>
+</body></html>
