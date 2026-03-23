@@ -6,7 +6,7 @@ import 'auth_storage.dart';
 
 class ApiService {
   static const String baseUrl =
-      'http://localhost:8080/api/v1'; // 10.0.2.2 for Android Emulator
+      'https://japanese-listening-learning-app-be.onrender.com/api/v1'; // 10.0.2.2 for Android Emulator
 
   static Map<String, String> _headers({bool withAuth = true}) {
     final headers = {'Content-Type': 'application/json'};
