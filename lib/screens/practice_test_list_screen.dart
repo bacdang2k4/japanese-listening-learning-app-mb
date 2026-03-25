@@ -63,7 +63,8 @@ class _PracticeTestListScreenState extends State<PracticeTestListScreen> {
       final start = await ApiService.startTest(testId, profileId);
       final resultId = start['resultId'] as int?;
       final totalQuestions = start['totalQuestions'] as int?;
-      final resolvedTestName = start['testName']?.toString() ?? testName;
+      final resolvedTestName = start['testName']?.toString() ?? testName ?? 'Luyện tập';
+      final audioUrl = start['audioUrl']?.toString();
 
       if (!mounted || resultId == null) return;
 
@@ -75,6 +76,7 @@ class _PracticeTestListScreenState extends State<PracticeTestListScreen> {
             resultId: resultId,
             testName: resolvedTestName,
             totalQuestions: totalQuestions,
+            audioUrl: audioUrl,
           ),
         ),
       );

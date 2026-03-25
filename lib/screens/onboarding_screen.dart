@@ -27,6 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void dispose() {
     _profileNameController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -97,16 +98,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       iconBgColor: const Color(0xFF1A2D3D),
       title: 'Kiểm tra AI',
       subtitle:
-          'Kiểm tra năng lực với hệ thống AI thông minh, đánh giá chính xác trình độ hiện tại của bạn.',
+          'Đánh giá chính xác năng lực hiện tại với hệ thống kiểm tra thông minh dựa trên AI.',
       illustration: '🤖',
       isDark: true,
     ),
     _OnboardingPage(
       icon: Icons.bar_chart,
       iconBgColor: const Color(0xFFF0F4F8),
-      title: 'Progress Tracking',
-      subtitle: 'Theo dõi lộ trình và tiến độ học tập mỗi ngày',
-      illustration: '📊',
+      title: 'Cá nhân hoá lộ trình',
+      subtitle: 'Tạo hồ sơ để theo dõi tiến độ và mục tiêu học tập của riêng bạn',
+      illustration: '🎯',
       showStats: true,
     ),
   ];
@@ -125,7 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: AppColors.primaryLight.withValues(alpha: 0.3), width: 1.5),
         ),
         child: Row(
           children: [
@@ -134,30 +135,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               height: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.cardBg,
+                color: AppColors.elsaIndigo50,
                 image: _avatarFile != null
                     ? DecorationImage(
                         image: FileImage(_avatarFile!),
                         fit: BoxFit.cover,
                       )
                     : null,
+                border: Border.all(color: AppColors.divider),
               ),
               child: _avatarFile == null
-                  ? const Icon(Icons.add_a_photo, color: AppColors.textSecondary, size: 24)
+                  ? const Icon(Icons.add_a_photo, color: AppColors.primary, size: 24)
                   : null,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Ảnh đại diện profile',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                    'Ảnh đại diện',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
                   ),
+                  const SizedBox(height: 4),
                   Text(
-                    _avatarFile != null ? 'Đã chọn ảnh' : 'Chạm để chọn (bỏ qua nếu không muốn)',
-                    style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                    _avatarFile != null ? 'Đã chọn ảnh thành công' : 'Chạm để tải ảnh lên (tùy chọn)',
+                    style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
                   ),
                 ],
               ),
@@ -166,6 +169,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               IconButton(
                 icon: const Icon(Icons.close, size: 20),
                 onPressed: () => setState(() => _avatarFile = null),
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(44, 44),
+                ),
               ),
           ],
         ),
@@ -183,297 +189,258 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           gradient: AppDecorations.learnerBgGradient,
         ),
         child: SafeArea(
-        child: Column(
-          children: [
-            // Top bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (_currentPage == 0)
-                    const SizedBox(width: 60)
-                  else
-                    const Text(
-                      'JPLearning',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+          child: Column(
+            children: [
+              // Top bar
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (_currentPage == 0)
+                      const SizedBox(width: 60)
+                    else
+                      const Text(
+                        'JPLearning',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    TextButton(
+                      onPressed: _loading ? null : _createProfileAndGoRoadmap,
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(60, 48), // Touch target
+                      ),
+                      child: Text(
+                        _currentPage == 0 ? 'Bỏ qua' : 'Skip',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
-                  TextButton(
-                    onPressed: _loading ? null : _createProfileAndGoRoadmap,
-                    child: Text(
-                      _currentPage == 0 ? 'Bỏ qua' : 'Skip',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // PageView
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: _pages.length,
-                onPageChanged: (index) {
-                  setState(() => _currentPage = index);
-                },
-                itemBuilder: (context, index) {
-                  final page = _pages[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Column(
-                      children: [
-                        const Spacer(),
-                        // Illustration card
-                        Container(
-                          width: double.infinity,
-                          height: 280,
-                          decoration: BoxDecoration(
-                            color: page.isDark
-                                ? const Color(0xFF1A2D3D)
-                                : AppColors.cardBg,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  page.illustration,
-                                  style: const TextStyle(fontSize: 72),
-                                ),
-                                const SizedBox(height: 12),
-                                if (page.isDark)
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                      vertical: 10,
+              // PageView
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _pages.length,
+                  onPageChanged: (index) {
+                    setState(() => _currentPage = index);
+                  },
+                  itemBuilder: (context, index) {
+                    final page = _pages[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Column(
+                        children: [
+                          const Spacer(),
+                          // Illustration card
+                          Container(
+                            width: double.infinity,
+                            height: 280,
+                            decoration: BoxDecoration(
+                              gradient: page.isDark 
+                                  ? const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+                                    )
+                                  : const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [Color(0xFFE0E7FF), Color(0xFFC7D2FE)],
                                     ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.cyanAccent.withValues(
-                                          alpha: 0.4,
+                              borderRadius: BorderRadius.circular(32),
+                              boxShadow: AppDecorations.elsaMd,
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    page.illustration,
+                                    style: const TextStyle(fontSize: 80),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  if (page.isDark)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 12,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.cyanAccent.withValues(alpha: 0.1),
+                                        border: Border.all(
+                                          color: Colors.cyanAccent.withValues(alpha: 0.3),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: const Text(
+                                        'AI',
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.cyanAccent,
+                                          letterSpacing: 2,
                                         ),
                                       ),
-                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    child: const Text(
-                                      'AI',
-                                      style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.cyanAccent,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-                        // Title
-                        Text(
-                          page.title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                            height: 1.3,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Subtitle
-                        Text(
-                          page.subtitle,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            color: AppColors.textSecondary,
-                            height: 1.5,
-                          ),
-                        ),
-                        if (page.showStats) ...[
-                          const SizedBox(height: 20),
-                          // Avatar (optional)
-                          _buildAvatarSection(),
-                          const SizedBox(height: 16),
-                          // Profile name input
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TextField(
-                              controller: _profileNameController,
-                              decoration: InputDecoration(
-                                hintText: 'Tên hồ sơ (tùy chọn)',
-                                hintStyle: TextStyle(color: AppColors.textSecondary.withValues(alpha: 0.8)),
-                                filled: true,
-                                fillColor: AppColors.surface,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          // Stats card
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.04),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Thành tích tuần này',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: AppColors.textSecondary,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.trending_up,
-                                      color: AppColors.primary,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      '85%',
-                                      style: TextStyle(
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.w800,
-                                        color: AppColors.textPrimary,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    const Text(
-                                      '+12% vs tuần trước',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: AppColors.success,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: LinearProgressIndicator(
-                                    value: 0.85,
-                                    backgroundColor: AppColors.progressBg,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                          AppColors.primary,
-                                        ),
-                                    minHeight: 6,
-                                  ),
-                                ),
-                              ],
+                          const SizedBox(height: 48),
+                          // Title
+                          Text(
+                            page.title,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textPrimary,
+                              height: 1.3,
                             ),
                           ),
+                          const SizedBox(height: 16),
+                          // Subtitle
+                          Text(
+                            page.subtitle,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: AppColors.textSecondary,
+                              height: 1.5,
+                            ),
+                          ),
+                          if (page.showStats) ...[
+                            const SizedBox(height: 32),
+                            // Avatar (optional)
+                            _buildAvatarSection(),
+                            const SizedBox(height: 16),
+                            // Profile name input
+                            TextField(
+                              controller: _profileNameController,
+                              style: const TextStyle(fontSize: 16),
+                              decoration: InputDecoration(
+                                hintText: 'Tên hồ sơ (tùy chọn)',
+                                prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.primary),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(color: AppColors.divider),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(color: AppColors.divider),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                                ),
+                              ),
+                            ),
+                          ],
+                          const Spacer(),
                         ],
-                        const Spacer(),
-                      ],
-                    ),
-                  );
-                },
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            // Dots indicator
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                _pages.length,
-                (index) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: _currentPage == index ? 24 : 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: _currentPage == index
-                        ? AppColors.primary
-                        : AppColors.progressBg,
-                    borderRadius: BorderRadius.circular(4),
+              // Dots indicator
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _pages.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 6),
+                    width: _currentPage == index ? 32 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: _currentPage == index
+                          ? AppColors.primary
+                          : AppColors.primary.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 32),
-            if (_error != null)
+              const SizedBox(height: 32),
+              if (_error != null)
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.errorLight,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    _error!,
+                    style: const TextStyle(color: AppColors.error, fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              // Bottom button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Text(
-                  _error!,
-                  style: const TextStyle(color: Colors.red, fontSize: 13),
-                  textAlign: TextAlign.center,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: _loading
+                        ? null
+                        : () {
+                            if (isLastPage) {
+                              _createProfileAndGoRoadmap();
+                            } else {
+                              _pageController.nextPage(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: isLastPage ? 4 : 0,
+                    ),
+                    child: _loading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                isLastPage ? 'Bắt đầu học' : 'Tiếp tục',
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(width: 8),
+                              Icon(
+                                isLastPage ? Icons.rocket_launch : Icons.arrow_forward,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                  ),
                 ),
               ),
-            // Bottom button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: ElevatedButton(
-                onPressed: _loading
-                    ? null
-                    : () {
-                        if (isLastPage) {
-                          _createProfileAndGoRoadmap();
-                        } else {
-                          _pageController.nextPage(
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                child: _loading
-                    ? const SizedBox(
-                        height: 22,
-                        width: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(isLastPage ? 'Bắt đầu ngay' : 'Tiếp theo'),
-                          const SizedBox(width: 8),
-                          Icon(
-                            isLastPage ? Icons.rocket_launch : Icons.arrow_forward,
-                            size: 20,
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-            const SizedBox(height: 32),
-          ],
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
-        ),
     );
   }
 }

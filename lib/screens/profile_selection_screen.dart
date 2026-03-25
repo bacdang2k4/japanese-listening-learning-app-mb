@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../core/api_service.dart';
 import '../core/app_colors.dart';
+import '../core/app_decorations.dart';
 import '../core/auth_storage.dart';
 import '../core/routes.dart';
+import '../widgets/skeleton.dart';
 
 class ProfileSelectionScreen extends StatefulWidget {
   const ProfileSelectionScreen({super.key});
@@ -63,56 +65,70 @@ class _ProfileSelectionScreenState extends State<ProfileSelectionScreen> {
         automaticallyImplyLeading: false,
         title: const Text('Chọn hồ sơ'),
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-        children: [
-          const SizedBox(height: 16),
-          const Text(
-            'Chào mừng bạn quay lại! Hãy chọn hồ sơ để tiếp\ntục hành trình học tập.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.textSecondary,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 24),
-          // Profile grid
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                childAspectRatio: 0.85,
-                children: [
-                  ...profiles.map((p) => _buildProfileItem(context, p)),
-                  _buildAddProfile(),
-                ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppDecorations.learnerBgGradient,
+        ),
+        child: Column(
+          children: [
+            const Divider(height: 1, color: AppColors.divider),
+            const SizedBox(height: 24),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Chào mừng bạn quay lại! Hãy chọn hồ sơ để tiếp tục hành trình học tập.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColors.textSecondary,
+                  height: 1.5,
+                ),
               ),
             ),
-          ),
-          // Add button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
-              },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.person_add, size: 20),
-                  SizedBox(width: 8),
-                  Text('Thêm hồ sơ mới'),
-                ],
+            const SizedBox(height: 32),
+            // Profile grid
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: _loading
+                      ? _buildSkeletonGrid()
+                      : GridView.count(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 24,
+                          crossAxisSpacing: 24,
+                          childAspectRatio: 0.85,
+                          children: [
+                            ...profiles.map((p) => _buildProfileItem(context, p)),
+                            _buildAddProfile(),
+                          ],
+                        ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildSkeletonGrid() {
+    return GridView.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 24,
+      crossAxisSpacing: 24,
+      childAspectRatio: 0.85,
+      children: List.generate(2, (index) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Skeleton(width: 100, height: 100, borderRadius: 50),
+          SizedBox(height: 16),
+          Skeleton(width: 80, height: 16),
+          SizedBox(height: 8),
+          Skeleton(width: 60, height: 12),
+        ],
+      )),
     );
   }
 
@@ -130,98 +146,124 @@ class _ProfileSelectionScreenState extends State<ProfileSelectionScreen> {
           }
         }
       },
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: profile.isActive
-                        ? AppColors.primary
-                        : AppColors.divider,
-                    width: profile.isActive ? 3 : 2,
+      borderRadius: BorderRadius.circular(24),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: AppDecorations.elsaSm,
+          border: Border.all(
+            color: profile.isActive ? AppColors.primary : AppColors.divider,
+            width: profile.isActive ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.elsaIndigo50,
+                    image: (profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty)
+                        ? DecorationImage(
+                            image: NetworkImage(profile.avatarUrl!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
-                  color: AppColors.cardBg,
-                  image: (profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty)
-                      ? DecorationImage(
-                          image: NetworkImage(profile.avatarUrl!),
-                          fit: BoxFit.cover,
-                        )
+                  child: (profile.avatarUrl == null || profile.avatarUrl!.isEmpty)
+                      ? const Icon(Icons.person, size: 40, color: AppColors.primaryLight)
                       : null,
                 ),
-                child: (profile.avatarUrl == null || profile.avatarUrl!.isEmpty)
-                    ? const Icon(Icons.person, size: 48, color: AppColors.textHint)
-                    : null,
-              ),
-              if (profile.isActive)
-                Positioned(
-                  right: 4,
-                  bottom: 4,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: AppColors.success,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.surface, width: 2),
+                if (profile.isActive)
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: AppColors.success,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.surface, width: 2),
+                      ),
+                      child: const Icon(Icons.check, size: 12, color: Colors.white),
                     ),
                   ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            profile.name,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              ],
             ),
-          ),
-          Text(
-            profile.status,
-            style: TextStyle(
-              fontSize: 12,
-              color: profile.isActive
-                  ? AppColors.primary
-                  : AppColors.textSecondary,
+            const SizedBox(height: 16),
+            Text(
+              profile.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              profile.status,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: profile.isActive ? FontWeight.w600 : FontWeight.normal,
+                color: profile.isActive
+                    ? AppColors.primary
+                    : AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildAddProfile() {
-    return Column(
-      children: [
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: AppColors.divider,
-              width: 2,
-              style: BorderStyle.solid,
+    return InkWell(
+      onTap: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
+      },
+      borderRadius: BorderRadius.circular(24),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: AppColors.primaryLight.withValues(alpha: 0.5),
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: AppColors.elsaIndigo50,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.add, size: 32, color: AppColors.primary),
             ),
-          ),
-          child: const Icon(Icons.add, size: 32, color: AppColors.textHint),
+            const SizedBox(height: 16),
+            const Text(
+              'Thêm mới',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
-        const Text(
-          'Thêm mới',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

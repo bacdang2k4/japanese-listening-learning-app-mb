@@ -123,7 +123,11 @@ class AppRoutes {
       case examRules:
         return _buildRoute(const ExamRulesScreen());
       case formalExam:
-        return _buildRoute(const FormalExamScreen());
+        final args = routeSettings.arguments;
+        if (args is Map<String, dynamic> && args['topicId'] != null) {
+          return _buildRoute(FormalExamScreen(topicId: args['topicId'] as int));
+        }
+        return _buildRoute(const SplashScreen()); // Fallback
       case examResult:
         return _buildRoute(const ExamResultScreen());
       case examHistory:

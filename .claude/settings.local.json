@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/north/Documents/School/7/SWD392/mb-jplearning -name *.html -type f)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter compile:*)",
+      "Bash(flutter build:*)",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}

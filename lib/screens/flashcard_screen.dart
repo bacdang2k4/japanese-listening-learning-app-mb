@@ -108,7 +108,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
         title: Column(
@@ -123,6 +123,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
             ),
           ],
         ),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: AppColors.textSecondary),
@@ -135,286 +136,333 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
           gradient: AppDecorations.learnerBgGradient,
         ),
         child: Column(
-        children: [
-          // Progress
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Tiến độ học tập',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+          children: [
+            // Progress
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Tiến độ học tập',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
                   ),
-                ),
-                Text(
-                  'Thẻ ${_currentCard + 1} / $_totalCards',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.divider),
+                    ),
+                    child: Text(
+                      '${_currentCard + 1} / $_totalCards',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: (_currentCard + 1) / _totalCards,
-                backgroundColor: AppColors.progressBg,
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  AppColors.primary,
-                ),
-                minHeight: 6,
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          // Flashcard (scrollable when content overflows)
-          Expanded(
-            child: SingleChildScrollView(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0, end: (_currentCard + 1) / _totalCards),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut,
+                  builder: (context, value, _) {
+                    return LinearProgressIndicator(
+                      value: value,
+                      backgroundColor: AppColors.progressBg,
+                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      minHeight: 8,
+                    );
+                  }
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Flashcard
+            Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: AppDecorations.elsaMd,
-                    border: Border.all(
-                      color: AppColors.elsaIndigo100.withValues(alpha: 0.5),
-                      width: 1,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      // Favorite star
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      icon: Icon(
-                        _isFavorite ? Icons.star : Icons.star_border,
-                        color: _isFavorite ? Colors.amber : AppColors.textHint,
-                        size: 28,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(
+                      scale: Tween<double>(begin: 0.9, end: 1.0).animate(
+                        CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
                       ),
-                      onPressed: () {
-                        setState(() => _isFavorite = !_isFavorite);
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Kanji
-                  Text(
-                    card.kanji,
-                    style: const TextStyle(
-                      fontSize: 56,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Romaji
-                  Text(
-                    card.romaji,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Speaker
-                  Container(
-                    width: 52,
-                    height: 52,
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  child: Container(
+                    key: ValueKey<int>(_currentCard),
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.cardBg,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.volume_up,
-                      color: AppColors.primary,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  // Show meaning button
-                  GestureDetector(
-                    onTap: () {
-                      setState(() => _showMeaning = !_showMeaning);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: AppColors.divider,
-                          style: BorderStyle.solid,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            '文A',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            _showMeaning ? card.meaning : 'Xem ý nghĩa',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ],
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(32),
+                      boxShadow: AppDecorations.elsaLg,
+                      border: Border.all(
+                        color: AppColors.elsaIndigo100.withValues(alpha: 0.5),
+                        width: 1.5,
                       ),
                     ),
-                  ),
-                  // Meaning + example (when visible)
-                  if (_showMeaning) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBg,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.divider.withValues(alpha: 0.5),
-                        ),
-                      ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(32),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          // Favorite star
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(
+                                _isFavorite ? Icons.star : Icons.star_border,
+                                color: _isFavorite ? Colors.amber : AppColors.textHint,
+                                size: 32,
+                              ),
+                              onPressed: () {
+                                setState(() => _isFavorite = !_isFavorite);
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          // Kanji
                           Text(
-                            card.meaning,
+                            card.kanji,
                             style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 64,
+                              fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary,
                             ),
                           ),
-                          if (card.exampleSentence.isNotEmpty) ...[
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Ví dụ',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textSecondary,
-                                letterSpacing: 1,
+                          const SizedBox(height: 16),
+                          // Romaji
+                          Text(
+                            card.romaji,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          // Speaker
+                          Container(
+                            width: 64,
+                            height: 64,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.volume_up,
+                              color: AppColors.primary,
+                              size: 32,
+                            ),
+                          ),
+                          const SizedBox(height: 40),
+                          // Show meaning button
+                          GestureDetector(
+                            onTap: () {
+                              setState(() => _showMeaning = !_showMeaning);
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 32,
+                                vertical: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _showMeaning ? AppColors.surface : AppColors.primary.withValues(alpha: 0.05),
+                                border: Border.all(
+                                  color: _showMeaning ? AppColors.divider : AppColors.primary.withValues(alpha: 0.3),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    _showMeaning ? Icons.translate : Icons.visibility,
+                                    color: _showMeaning ? AppColors.textSecondary : AppColors.primary,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    _showMeaning ? card.meaning : 'Xem ý nghĩa',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: _showMeaning ? AppColors.textPrimary : AppColors.primary,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 6),
-                            Text(
-                              card.exampleSentence,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                                height: 1.5,
+                          ),
+                          // Meaning + example
+                          if (_showMeaning) ...[
+                            const SizedBox(height: 24),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: AppColors.cardBg,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    card.meaning,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  if (card.exampleSentence.isNotEmpty) ...[
+                                    const SizedBox(height: 16),
+                                    const Text(
+                                      'VÍ DỤ',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800,
+                                        color: AppColors.primary,
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      card.exampleSentence,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textSecondary,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ),
                           ],
                         ],
                       ),
                     ),
-                  ],
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
-          ),
-          ),
-          const SizedBox(height: 12),
-          // "Đã thuộc từ này" button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _showMeaning = false;
-                  _currentCard = (_currentCard + 1) % _totalCards;
-                });
-              },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            const SizedBox(height: 24),
+            // "Đã thuộc từ này" button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _showMeaning = false;
+                      _currentCard = (_currentCard + 1) % _totalCards;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.success,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    elevation: 4,
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_circle, size: 24, color: Colors.white),
+                      SizedBox(width: 12),
+                      Text('Đã thuộc từ này', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Prev / Next
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
                 children: [
-                  Icon(Icons.check_circle, size: 20),
-                  SizedBox(width: 8),
-                  Text('Đã thuộc từ này'),
+                  Expanded(
+                    child: SizedBox(
+                      height: 56,
+                      child: OutlinedButton(
+                        onPressed: _currentCard > 0
+                            ? () {
+                                setState(() {
+                                  _currentCard--;
+                                  _showMeaning = false;
+                                });
+                              }
+                            : null,
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          side: const BorderSide(color: AppColors.divider, width: 2),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.chevron_left, size: 24),
+                            SizedBox(width: 8),
+                            Text('Trước đó', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: SizedBox(
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _currentCard = (_currentCard + 1) % _totalCards;
+                            _showMeaning = false;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.surface,
+                          foregroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          side: const BorderSide(color: AppColors.primary, width: 2),
+                          elevation: 0,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Tiếp theo', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                            SizedBox(width: 8),
+                            Icon(Icons.chevron_right, size: 24),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          // Prev / Next
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: _currentCard > 0
-                        ? () {
-                            setState(() {
-                              _currentCard--;
-                              _showMeaning = false;
-                            });
-                          }
-                        : null,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.chevron_left, size: 20),
-                        SizedBox(width: 4),
-                        Text('Trước đó'),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentCard = (_currentCard + 1) % _totalCards;
-                        _showMeaning = false;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.surface,
-                      foregroundColor: AppColors.textPrimary,
-                      side: const BorderSide(color: AppColors.divider),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Tiếp theo'),
-                        SizedBox(width: 4),
-                        Icon(Icons.chevron_right, size: 20),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );

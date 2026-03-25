@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../core/api_service.dart';
 import '../core/app_colors.dart';
+import '../core/app_decorations.dart';
 import '../core/auth_storage.dart';
 import 'practice_quiz_screen.dart';
 
@@ -29,8 +30,30 @@ class PracticeResultScreen extends StatefulWidget {
   State<PracticeResultScreen> createState() => _PracticeResultScreenState();
 }
 
-class _PracticeResultScreenState extends State<PracticeResultScreen> {
+class _PracticeResultScreenState extends State<PracticeResultScreen> with SingleTickerProviderStateMixin {
   bool _retrying = false;
+  late AnimationController _animationController;
+  late Animation<double> _scoreAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    final ratio = widget.totalQuestions <= 0 ? 0.0 : (widget.correctCount / widget.totalQuestions).clamp(0.0, 1.0);
+    _scoreAnimation = Tween<double>(begin: 0, end: ratio).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic),
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   Future<void> _onRetry() async {
     final testId = widget.testId;
@@ -43,6 +66,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
       final resultId = start['resultId'] as int?;
       final totalQuestions = start['totalQuestions'] as int?;
       final testName = start['testName']?.toString() ?? widget.testName ?? 'Luyện tập';
+      final audioUrl = start['audioUrl']?.toString();
 
       if (!mounted || resultId == null) return;
 
@@ -54,6 +78,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
             resultId: resultId,
             testName: testName,
             totalQuestions: totalQuestions,
+            audioUrl: audioUrl,
           ),
         ),
       );
@@ -70,16 +95,16 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ratio = widget.totalQuestions <= 0 ? 0.0 : (widget.correctCount / widget.totalQuestions).clamp(0.0, 1.0);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Kết quả luyện tập'),
+        title: const Text('Kết quả bài tập'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -88,43 +113,55 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
             const SizedBox(height: 16),
             // Score circle
             SizedBox(
-              width: 180,
-              height: 180,
-              child: CustomPaint(
-                painter: _ScoreCirclePainter(ratio, AppColors.primary),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${widget.correctCount}/${widget.totalQuestions}',
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
-                        ),
+              width: 200,
+              height: 200,
+              child: AnimatedBuilder(
+                animation: _scoreAnimation,
+                builder: (context, child) {
+                  return CustomPaint(
+                    painter: _ScoreCirclePainter(_scoreAnimation.value, AppColors.primary),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${(_scoreAnimation.value * widget.totalQuestions).round()}/${widget.totalQuestions}',
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const Text(
+                            'ĐIỂM SỐ',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textSecondary,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'ĐIỂM SỐ',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 32),
             // Pass badge
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
                 color: widget.isPassed ? AppColors.successLight : AppColors.errorLight,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: widget.isPassed ? AppColors.success : AppColors.error,
+                  width: 1.5,
+                ),
+                boxShadow: widget.isPassed 
+                    ? [BoxShadow(color: AppColors.success.withValues(alpha: 0.2), blurRadius: 12, offset: const Offset(0, 4))]
+                    : [],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -132,45 +169,45 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                   Icon(
                     widget.isPassed ? Icons.emoji_events : Icons.cancel,
                     color: widget.isPassed ? AppColors.success : AppColors.error,
-                    size: 18,
+                    size: 24,
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 8),
                   Text(
-                    widget.isPassed ? 'ĐẠT' : 'CHƯA ĐẠT',
+                    widget.isPassed ? 'ĐẠT YÊU CẦU' : 'CHƯA ĐẠT',
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
                       color: widget.isPassed ? AppColors.success : AppColors.error,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Text(
               widget.isPassed
                   ? 'Tuyệt vời! Bạn đã nắm vững kiến\nthức phần này.'
                   : 'Bạn cần luyện thêm để mở khóa\nbài học tiếp theo.',
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 16,
                 color: AppColors.textSecondary,
                 height: 1.5,
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 40),
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Tổng quan chi tiết',
                 style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
                 ),
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 16),
             // Stats grid
             Row(
               children: [
@@ -182,7 +219,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                   Icons.my_location,
                   AppColors.primary,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 _buildStatCard(
                   'CÂU ĐÚNG',
                   '${widget.correctCount}',
@@ -192,7 +229,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Row(
               children: [
                 _buildStatCard(
@@ -202,7 +239,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                   AppColors.error,
                   bgColor: AppColors.errorLight,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 _buildStatCard(
                   'TỔNG SỐ',
                   '${widget.totalQuestions}',
@@ -211,19 +248,28 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             // Advice card
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(14),
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: AppDecorations.elsaSm,
+                border: Border.all(color: AppColors.divider),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.info, color: AppColors.primary, size: 20),
-                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.info, color: AppColors.primary, size: 24),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,20 +277,20 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                         const Text(
                           'Lời khuyên cho bạn',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 8),
                         Text(
                           widget.wrongCount > 0
                               ? 'Bạn làm sai ${widget.wrongCount} câu. Hãy xem lại từ vựng và làm lại để củng cố kiến thức nhé!'
                               : 'Hoàn hảo! Bạn đã trả lời đúng tất cả các câu hỏi.',
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 14,
                             color: AppColors.textSecondary,
-                            height: 1.4,
+                            height: 1.5,
                           ),
                         ),
                       ],
@@ -253,41 +299,61 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 40),
             // Retry button
-            ElevatedButton(
-              onPressed: widget.testId != null && !_retrying ? _onRetry : null,
-              child: _retrying
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
+            SizedBox(
+              height: 56,
+              child: ElevatedButton(
+                onPressed: widget.testId != null && !_retrying ? _onRetry : null,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 4,
+                ),
+                child: _retrying
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      )
+                    : const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.refresh, size: 24),
+                          SizedBox(width: 12),
+                          Text(
+                            'Làm lại bài',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ],
                       ),
-                    )
-                  : const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.refresh, size: 20),
-                        SizedBox(width: 8),
-                        Text('Làm lại'),
-                      ],
-                    ),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.arrow_back, size: 20),
-                  SizedBox(width: 8),
-                  Text('Trở về lộ trình'),
-                ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 56,
+              child: OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  side: const BorderSide(color: AppColors.divider, width: 2),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.arrow_back, size: 24),
+                    SizedBox(width: 12),
+                    Text(
+                      'Trở về lộ trình',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -303,42 +369,40 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
   }) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: bgColor ?? AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: bgColor == null
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.03),
-                    blurRadius: 8,
-                  ),
-                ]
-              : null,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: bgColor == null ? AppDecorations.elsaSm : [],
+          border: bgColor == null ? Border.all(color: AppColors.divider) : null,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(icon, size: 16, color: color),
-                const SizedBox(width: 6),
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: color,
-                    letterSpacing: 0.3,
+                Icon(icon, size: 18, color: color),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: color,
+                      letterSpacing: 0.5,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Text(
               value,
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 32,
                 fontWeight: FontWeight.w800,
                 color: color == AppColors.primary
                     ? AppColors.textPrimary
@@ -361,20 +425,20 @@ class _ScoreCirclePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 8;
+    final radius = size.width / 2 - 10;
 
     // Background circle
     final bgPaint = Paint()
       ..color = AppColors.progressBg
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
+      ..strokeWidth = 14;
     canvas.drawCircle(center, radius, bgPaint);
 
     // Progress arc
     final progressPaint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 10
+      ..strokeWidth = 14
       ..strokeCap = StrokeCap.round;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
@@ -386,5 +450,7 @@ class _ScoreCirclePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant _ScoreCirclePainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
 }
